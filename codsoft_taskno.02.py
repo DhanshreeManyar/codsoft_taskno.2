@@ -1,77 +1,111 @@
+
 from tkinter import *
+expression = "" 
 
-def on_click(number):
-    current = entry.get()
-    entry.delete(0, END)
-    entry.insert(0, current + str(number))
 
-def clear():
-    entry.delete(0, END)
 
-def backspace():
-    current = entry.get()
-    entry.delete(0, END)
-    entry.insert(0, current[:-1])
+def press(num): 
+	
+	global expression 	
+	expression = expression + str(num) 	
+	equation.set(expression) 
 
-def calculate():
-    try:
-        expression = entry.get()
-        if expression:
-            result = eval(expression)
-            entry.delete(0, END)
-            entry.insert(0, str(result))
-        else:
-            entry.delete(0, END)
-    except Exception as e:
-        entry.delete(0, END)
-        entry.insert(0, "Error")
 
-def clear_entry(event):
-    entry.delete(0, END)
 
-root = Tk()
-root.title("Calculator App")
-root.geometry("300x650")
+def equalpress():  
+	try: 
 
-bg_color = "#E0E0E0"
-button_color = "#D1D1D1"
+		global expression 
+		total = str(eval(expression)) 
+		equation.set(total) 
+		expression = "" 
 
-title_label = Label(root, text="Calculator", font=("Arial", 20))
-title_label.grid(row=0, column=0, columnspan=4, pady=(10, 20), padx=10, sticky="w")
+	except: 
 
-entry = Entry(root, width=10, font=("Arial", 28), bd=10, bg=bg_color, justify="right")
-entry.grid(row=1, column=0, columnspan=4, padx=10, pady=10, sticky="nsew")
-entry.bind("<FocusIn>", clear_entry)
+		equation.set(" error ") 
+		expression = "" 
 
-buttons = [
-    '7', '8', '9', '/',
-    '4', '5', '6', '*',
-    '1', '2', '3', '-',
-    '0', '.', '=', '+'
-]
+def clear(): 
+	global expression 
+	expression = "" 
+	equation.set("") 
 
-row_val, col_val = 2, 0
 
-for button in buttons:
-    if button == '=':
-        Button(root, text=button, padx=8, pady=20, font=("Arial", 18), command=calculate, bg=button_color).grid(row=row_val, column=col_val, padx=5, pady=5, sticky="nsew")
-    elif button == '0':
-        Button(root, text=button, padx=8, pady=20, font=("Arial", 18), command=lambda num=button: on_click(num), bg=button_color).grid(row=row_val, column=col_val, padx=5, pady=5, sticky="nsew")
-    elif button == '.':
-        Button(root, text=button, padx=8, pady=20, font=("Arial", 18), command=lambda num=button: on_click(num), bg=button_color).grid(row=row_val, column=col_val, padx=5, pady=5, sticky="nsew")
-    else:
-        Button(root, text=button, padx=8, pady=20, font=("Arial", 18), command=lambda num=button: on_click(num), bg=button_color).grid(row=row_val, column=col_val, padx=5, pady=5, sticky="nsew")
 
-    col_val += 1
-    if col_val > 3:
-        col_val = 0
-        row_val += 1
+if __name__ == "__main__": 
+	gui = Tk() 
+	gui.configure(background="light green") 
+	gui.title("Simple Calculator") 
+	gui.geometry("270x150") 
+	equation = StringVar() 
+	expression_field = Entry(gui, textvariable=equation) 
+	expression_field.grid(columnspan=4, ipadx=70) 
+	button1 = Button(gui, text=' 1 ', fg='black', bg='red', 
+					command=lambda: press(1), height=1, width=7) 
+	button1.grid(row=2, column=0) 
 
-Button(root, text="C", padx=8, pady=20, font=("Arial", 18), command=clear, bg=button_color).grid(row=row_val, column=0, padx=5, pady=5, sticky="nsew")
+	button2 = Button(gui, text=' 2 ', fg='black', bg='red', 
+					command=lambda: press(2), height=1, width=7) 
+	button2.grid(row=2, column=1) 
 
-Button(root, text="<-", padx=8, pady=20, font=("Arial", 18), command=backspace, bg=button_color).grid(row=row_val, column=1, padx=5, pady=5, sticky="nsew")
+	button3 = Button(gui, text=' 3 ', fg='black', bg='red', 
+					command=lambda: press(3), height=1, width=7) 
+	button3.grid(row=2, column=2) 
 
-root.grid_rowconfigure(1, weight=1)
-root.grid_columnconfigure(0, weight=1)
+	button4 = Button(gui, text=' 4 ', fg='black', bg='red', 
+					command=lambda: press(4), height=1, width=7) 
+	button4.grid(row=3, column=0) 
 
-root.mainloop()
+	button5 = Button(gui, text=' 5 ', fg='black', bg='red', 
+					command=lambda: press(5), height=1, width=7) 
+	button5.grid(row=3, column=1) 
+
+	button6 = Button(gui, text=' 6 ', fg='black', bg='red', 
+					command=lambda: press(6), height=1, width=7) 
+	button6.grid(row=3, column=2) 
+
+	button7 = Button(gui, text=' 7 ', fg='black', bg='red', 
+					command=lambda: press(7), height=1, width=7) 
+	button7.grid(row=4, column=0) 
+
+	button8 = Button(gui, text=' 8 ', fg='black', bg='red', 
+					command=lambda: press(8), height=1, width=7) 
+	button8.grid(row=4, column=1) 
+
+	button9 = Button(gui, text=' 9 ', fg='black', bg='red', 
+					command=lambda: press(9), height=1, width=7) 
+	button9.grid(row=4, column=2) 
+
+	button0 = Button(gui, text=' 0 ', fg='black', bg='red', 
+					command=lambda: press(0), height=1, width=7) 
+	button0.grid(row=5, column=0) 
+
+	plus = Button(gui, text=' + ', fg='black', bg='red', 
+				command=lambda: press("+"), height=1, width=7) 
+	plus.grid(row=2, column=3) 
+
+	minus = Button(gui, text=' - ', fg='black', bg='red', 
+				command=lambda: press("-"), height=1, width=7) 
+	minus.grid(row=3, column=3) 
+
+	multiply = Button(gui, text=' * ', fg='black', bg='red', 
+					command=lambda: press("*"), height=1, width=7) 
+	multiply.grid(row=4, column=3) 
+
+	divide = Button(gui, text=' / ', fg='black', bg='red', 
+					command=lambda: press("/"), height=1, width=7) 
+	divide.grid(row=5, column=3) 
+
+	equal = Button(gui, text=' = ', fg='black', bg='red', 
+				command=equalpress, height=1, width=7) 
+	equal.grid(row=5, column=2) 
+
+	clear = Button(gui, text='Clear', fg='black', bg='red', 
+				command=clear, height=1, width=7) 
+	clear.grid(row=5, column='1') 
+
+	Decimal= Button(gui, text='.', fg='black', bg='red', 
+					command=lambda: press('.'), height=1, width=7) 
+	Decimal.grid(row=6, column=0) 
+	# start the GUI 
+	gui.mainloop() 
